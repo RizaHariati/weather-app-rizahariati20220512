@@ -5,8 +5,15 @@ import React, {
   useEffect,
   useReducer,
 } from "react";
+import getDay from "../components/utils/GetDay";
+import getTime from "../components/utils/GetTime";
+import hourlyArray from "../components/utils/HourlyArray";
 import reducer from "./reducer";
-import { CLOSE_SEARCH_BAR, OPEN_SEARCH_BAR } from "./reducerIndex";
+import {
+  CLOSE_SEARCH_BAR,
+  GET_TODAYS_WEATHER,
+  OPEN_SEARCH_BAR,
+} from "./reducerIndex";
 
 const AppContext = createContext();
 
@@ -14,14 +21,16 @@ const AppProvider = ({ children }) => {
   const initialState = {
     showSearchBar: true,
     locationKey: "",
+    todaysWeather: null,
+    // dailyWeather: [],
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
+
   const [locationKey, setLocationKey] = useState("");
   const [locationList, setLocationList] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [todaysWeather, setTodaysWeather] = useState(null);
+  // const [todaysWeather, setTodaysWeather] = useState(null);
   const [dailyWeather, setDailyWeather] = useState([]);
 
   const closeSearchBar = () => {
@@ -68,15 +77,6 @@ const AppProvider = ({ children }) => {
     clearList();
   };
 
-  const getTime = (dt) => {
-    const now = new Date(dt * 1000);
-    return now.toString().slice(16, 21);
-  };
-  const getDay = (dt) => {
-    const now = new Date(dt * 1000);
-    return now.toString().slice(0, 4) + now.toString().slice(8, 10);
-  };
-
   const fetchTodaysWeather = async (location) => {
     const { lat, lon, name, state, country } = location;
     try {
@@ -86,9 +86,8 @@ const AppProvider = ({ children }) => {
       const data = await resp.json();
       if (data) {
         const { current, hourly, daily } = data;
-        console.log(data);
         const today = daily[0];
-        console.log(today);
+        const time = hourlyArray(hourly, current);
         const weather = {
           name,
           state,
@@ -100,26 +99,7 @@ const AppProvider = ({ children }) => {
           tempMax: Math.floor(today.temp.max),
           tempMin: Math.floor(today.temp.min),
           timeNow: getTime(current.dt),
-          morning: {
-            temp: Math.floor(hourly[0].temp),
-            humid: hourly[0].humidity,
-            image: hourly[0].weather[0].icon,
-          },
-          afternoon: {
-            temp: Math.floor(hourly[6].temp),
-            humid: hourly[6].humidity,
-            image: hourly[6].weather[0].icon,
-          },
-          evening: {
-            temp: Math.floor(hourly[12].temp),
-            humid: hourly[12].humidity,
-            image: hourly[12].weather[0].icon,
-          },
-          overnight: {
-            temp: Math.floor(hourly[18].temp),
-            humid: hourly[18].humidity,
-            image: hourly[18].weather[0].icon,
-          },
+          timeInDay: time,
         };
         daily.forEach((item, index) => {
           const {
@@ -136,7 +116,7 @@ const AppProvider = ({ children }) => {
             rain,
           } = item;
           const { main, description, icon } = weather[0];
-          const { day, eve, max, min, morn, night } = temp;
+          const { day, max, min, night } = temp;
 
           const dailyData = {
             day: getDay(dt),
@@ -163,8 +143,7 @@ const AppProvider = ({ children }) => {
           }
         });
         clearList();
-        setTodaysWeather(weather);
-        setLoading(false);
+        dispatch({ type: GET_TODAYS_WEATHER, payload: weather });
       }
     } catch (error) {
       console.log(error);
@@ -173,7 +152,6 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     let isMount = true;
-    setLoading(true);
 
     if (selectedLocation && isMount) {
       fetchTodaysWeather(selectedLocation);
@@ -197,8 +175,6 @@ const AppProvider = ({ children }) => {
         setLocationList,
         selectedLocation,
         getSelectedLocation,
-        todaysWeather,
-        loading,
         dailyWeather,
       }}
     >

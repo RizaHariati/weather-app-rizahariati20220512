@@ -40,7 +40,7 @@ const City = () => {
   } else {
     setTimeout(() => {
       Router.push("/");
-    }, 2000);
+    }, 3000);
     return (
       <div
         onClick={() => {
@@ -89,8 +89,7 @@ const Today = ({ todaysWeather }) => {
               className="w-24 h-24 mix-blend-screen mx-auto"
             />
             <p className="font-bold text-xl font-sans text-center">
-              {tempMax} &#8451;
-              {tempMin} &#8451;
+              {tempMax} &#8451; /{tempMin} &#8451;
             </p>
           </div>
         </div>
@@ -101,58 +100,52 @@ const Today = ({ todaysWeather }) => {
 };
 
 const TimeToday = ({ todaysWeather }) => {
-  const { morning, afternoon, evening, overnight } = todaysWeather;
+  const { timeInDay, name, state, country } = todaysWeather;
   return (
     <div className="grid-large space-y-5">
       <h2 className=" font-bold text-xl ">
-        Today's Forecast for
-        {`${todaysWeather.name}, ${todaysWeather.state || ""}, ${
-          todaysWeather.country
-        }`}
+        Tomorrow's Forecast for
+        {`${name}, ${state || ""}, ${country}`}
       </h2>
 
       <div className="grid grid-cols-4 space-x-1 bg-gray-200 w-full ">
-        <Time
-          time="morning"
-          temp={morning.temp}
-          humid={morning.humid || null}
-          weather={morning.image}
-        />
-        <Time
-          time="afternoon"
-          temp={afternoon.temp}
-          humid={afternoon.humid || null}
-          weather={afternoon.image}
-        />
-        <Time
-          time="evening"
-          temp={evening.temp}
-          humid={evening.humid || null}
-          weather={evening.image}
-        />
-        <Time
-          time="overnight"
-          temp={overnight.temp}
-          humid={overnight.humid || null}
-          weather={overnight.image}
-        />
+        {timeInDay.map((time, index) => {
+          let now = "";
+          if (index === 0) {
+            now = "Morning";
+          } else if (index === 1) {
+            now = "Evening";
+          } else if (index === 2) {
+            now = "Night";
+          } else {
+            now = "Overnight";
+          }
+          return (
+            <Time
+              time={now}
+              temp={time.temp}
+              humid={time.humid || null}
+              weather={time.image}
+              key={index}
+            />
+          );
+        })}
       </div>
       <button className="btn ">next hours</button>
     </div>
   );
 };
 
-const Time = ({ time, temp, humid, weather }) => {
+const Time = ({ time, temp, humid, weather, timeVal }) => {
   return (
     <div className="bg-white flex flex-col items-center justify-center space-y-2">
       <p className="text-xl font-medium capitalize">{time}</p>
-      <h2>{temp} &#8451;</h2>
+      <h2 className="font-sans ">{temp} &#8451;</h2>
       <img
         src={`http://openweathermap.org/img/w/${weather}.png`}
         alt={time}
         className="w-24 h-24"
       />
-
       <h2>{humid} %</h2>
     </div>
   );

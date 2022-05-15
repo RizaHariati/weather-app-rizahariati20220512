@@ -5,7 +5,7 @@ import { useGlobalContext } from "../../../context/appContext";
 
 const TenDays = () => {
   const { dailyWeather, todaysWeather } = useGlobalContext();
-
+  console.log(dailyWeather);
   const [selected, setSelected] = useState(null);
   const Router = useRouter();
   const toggle = (id) => {
@@ -26,7 +26,7 @@ const TenDays = () => {
             <h2 className="font-bold text-xl">
               10 Day Weather -
               <span className="font-medium text-base">
-                {`${todaysWeather.name}, ${todaysWeather.state || ""}, ${
+                {` ${todaysWeather.name}, ${todaysWeather.state || ""}, ${
                   todaysWeather.country
                 }`}
               </span>
@@ -60,7 +60,7 @@ const TenDays = () => {
   } else {
     setTimeout(() => {
       Router.push("/");
-    }, 2000);
+    }, 3000);
     return (
       <div
         onClick={() => {
