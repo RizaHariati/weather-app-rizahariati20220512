@@ -81,7 +81,7 @@ const AppProvider = ({ children }) => {
     const { lat, lon, name, state, country } = location;
     try {
       const resp = await fetch(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}&units=metric`
+        `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}&units=metric`
       );
       const data = await resp.json();
       if (data) {
