@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import LocationOnMap from "../../../components/LocationOnMap";
-import { useGlobalContext } from "../../../context/appContext";
+import LocationOnMap from "../components/LocationOnMap";
+import { useGlobalContext } from "../context/appContext";
 import Router from "next/router";
 import Image from "next/image";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Router from "next/router";
-import { useGlobalContext } from "../../../context/appContext";
+import { useGlobalContext } from "../context/appContext";
 import Image from "next/image";
 
 const TenDays = () => {

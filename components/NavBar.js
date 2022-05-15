@@ -29,7 +29,7 @@ const NavBar = () => {
       const { name, state, country, lat, lon } = locationList[0];
       getSelectedLocation({ lat, lon, name, state, country });
       setTimeout(() => {
-        router.push(`/city/${name}`);
+        router.push(`/city`);
       }, 500);
     }
   };
@@ -82,7 +82,7 @@ const NavBar = () => {
                       onClick={() => {
                         getSelectedLocation({ lat, lon, name, state, country });
                         setTimeout(() => {
-                          router.push(`/city/${name}`);
+                          router.push(`/city`);
                         }, 500);
                       }}
                     >
@@ -137,7 +137,7 @@ const NavBar = () => {
       {/* navigation bar */}
       <div className="bg-clrPrimaryDark w-full h-10 flex items-center justify-between p-0 px-6 space-x-1 text-white transition-all">
         <div className="flex h-full ">
-          <Link href={!todaysWeather ? "/" : `/city/${todaysWeather.name}`}>
+          <Link href={!todaysWeather ? "/" : `/city`}>
             <p className="w-32 h-full transition-all  cursor-pointer hover:border-b-white hover:border-b-4 pt-2 text-center ">
               Today
             </p>
@@ -149,9 +149,7 @@ const NavBar = () => {
             </p>
           </Link>
 
-          <Link
-            href={!todaysWeather ? "/" : `/city/${todaysWeather.name}/tendays`}
-          >
+          <Link href={!todaysWeather ? "/" : `/tendays`}>
             <p className="w-32 h-full transition-all cursor-pointer hover:border-b-white hover:border-b-4 pt-2 text-center ">
               10 days
             </p>
