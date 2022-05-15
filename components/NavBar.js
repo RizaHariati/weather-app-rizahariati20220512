@@ -22,6 +22,17 @@ const NavBar = () => {
     getLocationKey(e.target.value);
   };
 
+  const handleSubmit = (e, locationList) => {
+    e.preventDefault();
+
+    if (locationList.length > 0) {
+      const { name, state, country, lat, lon } = locationList[0];
+      getSelectedLocation({ lat, lon, name, state, country });
+      setTimeout(() => {
+        router.push(`/city/${name}`);
+      }, 500);
+    }
+  };
   return (
     <nav className="fixed w-full">
       {/* search bar */}
@@ -44,46 +55,53 @@ const NavBar = () => {
           </h3>
         </div>
 
-        <div className="relative w-80 h-9 mx-auto rounded-md bg-clrPrimaryLight flex focus-within:ring-1 focus-within:ring-white">
-          <input
-            placeholder="Select City.."
-            className="w-10/12 bg-transparent pl-2 focus-within:bg-clrAccentDark transition-all focus-within:ring-0 focus-within:border0 text-white font-medium capitalize"
-            value={locationKey}
-            onChange={(e) => handleChange(e)}
-          />
-
-          {locationList.length > 0 && (
-            <div className="transition all bg-white absolute top-10 rounded-md shadow-md left-0 w-80  p-2">
-              {locationList.map((item, index) => {
-                const { name, state, country, lat, lon } = item;
-                return (
-                  <button
-                    key={index}
-                    className={
-                      locationList.length === 1
-                        ? " search-list-btn"
-                        : " search-list-btn border-b-2 border-b-slate-200"
-                    }
-                    onClick={() => {
-                      getSelectedLocation({ lat, lon, name, state, country });
-                      router.push(`/city/${name}`);
-                    }}
-                  >
-                    <p>{name}</p>
-                    {state && <p>, {state}</p>}
-                    {country && <p>, {country}</p>}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="w-2/12 hover:bg-clrAccentDark transition-all "
+        <div className="relative w-80 h-9">
+          <form
+            className=" w-80 h-9 mx-auto rounded-md bg-clrPrimaryLight flex focus-within:ring-1 focus-within:ring-white"
+            onSubmit={(e) => handleSubmit(e, locationList)}
           >
-            <i className="fa-solid fa-magnifying-glass text-white"></i>
-          </button>
+            <input
+              placeholder="Select City.."
+              className="w-10/12 bg-transparent pl-2 focus-within:bg-clrAccentDark transition-all focus-within:ring-0 focus-within:border0 text-white font-medium capitalize"
+              value={locationKey}
+              onChange={(e) => handleChange(e)}
+            />
+
+            {locationList.length > 0 && (
+              <div className="transition all bg-white absolute top-10 rounded-md shadow-md left-0 w-80  p-2">
+                {locationList.map((item, index) => {
+                  const { name, state, country, lat, lon } = item;
+                  return (
+                    <button
+                      key={index}
+                      className={
+                        locationList.length === 1
+                          ? " search-list-btn"
+                          : " search-list-btn border-b-2 border-b-slate-200"
+                      }
+                      onClick={() => {
+                        getSelectedLocation({ lat, lon, name, state, country });
+                        setTimeout(() => {
+                          router.push(`/city/${name}`);
+                        }, 500);
+                      }}
+                    >
+                      <p>{name}</p>
+                      {state && <p>, {state}</p>}
+                      {country && <p>, {country}</p>}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-2/12 hover:bg-clrAccentDark transition-all "
+            >
+              <i className="fa-solid fa-magnifying-glass text-white"></i>
+            </button>
+          </form>
         </div>
         <button
           className=" ml-auto"

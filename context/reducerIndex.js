@@ -1,0 +1,2 @@
+export const CLOSE_SEARCH_BAR = "CLOSE_SEARCH_BAR";
+export const OPEN_SEARCH_BAR = "OPEN_SEARCH_BAR";

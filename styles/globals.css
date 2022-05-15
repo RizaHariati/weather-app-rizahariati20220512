@@ -1,3 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap");
+
 html,
 body {
   padding: 0;
@@ -13,4 +19,46 @@ a {
 
 * {
   box-sizing: border-box;
+}
+.sad {
+  overflow-y: scroll;
+}
+@layer components {
+  .banner {
+    @apply bg-gradient-to-b from-clrAccentDark to-clrAccentLight w-screen -z-10 absolute min-h-max;
+    overflow-y: scroll;
+  }
+
+  .upperBar {
+    @apply bg-clrPrimaryMedium w-full  grid grid-cols-3 justify-between items-center px-6 transition-all;
+  }
+
+  .search-list-btn {
+    @apply w-full text-left text-sm py-3 flex text-clrPrimaryDark font-normal transition-all
+    hover:text-black hover:font-semibold;
+  }
+  .main-container {
+    @apply w-full px-16 pt-32 pb-20 flex flex-col items-center text-center;
+    height: 100vh;
+  }
+
+  .main-grid {
+    @apply max-w-screen-lg space-x-3 mx-auto w-full;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .grid-large {
+    @apply w-full h-max bg-white rounded-md p-5 shadow-sm;
+  }
+  .grid-small {
+    @apply bg-white rounded-md pt-5 flex flex-col shadow-md space-y-5 py-5;
+  }
+  .footerBar {
+    @apply fixed bottom-0 bg-clrPrimaryDark w-full flex items-center justify-center p-0 px-6 space-x-1 text-white transition-all overflow-hidden;
+  }
+
+  .btn {
+    @apply transition-all bg-clrButton hover:bg-blue-600 active:bg-blue-500 active:ring-1 active:ring-blue-600 w-36 rounded-full text-white py-1 uppercase text-sm;
+  }
 }
