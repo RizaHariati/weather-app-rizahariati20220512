@@ -8,4 +8,7 @@ module.exports = {
   env: {
     API_KEY: "bd89d12b5d7cad041331683b184ff53b",
   },
+  images: {
+    domains: ["openweathermap.org"],
+  },
 };

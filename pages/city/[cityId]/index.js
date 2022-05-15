@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import LocationOnMap from "../../../components/LocationOnMap";
 import { useGlobalContext } from "../../../context/appContext";
-import { useRouter } from "next/router";
+import Router from "next/router";
+import Image from "next/image";
 
 const City = () => {
   const { clearList, todaysWeather, selectedLocation } = useGlobalContext();
-  const Router = useRouter();
 
   if (todaysWeather) {
     return (
@@ -76,17 +76,22 @@ const Today = ({ todaysWeather }) => {
         {`${name}, ${state || ""}, ${country}`}
       </h2>
       <p className="text-clrAccentLight">{`as of ${timeNow} WIB`}</p>
-      <div style={{ display: "grid", gridTemplateColumns: "4fr 1fr" }}>
+      <div
+        style={{ display: "grid", gridTemplateColumns: "3.5fr 1fr" }}
+        className="items-center"
+      >
         <div>
           <h1 className="text-7xl font-bold font-sans">{temp} &#8451;</h1>
           <h4 className="text-2xl font-bold">{weatherMain}</h4>
         </div>
         <div>
           <div className="flex-row items-center justify-center">
-            <img
+            <Image
               src={`http://openweathermap.org/img/w/${weatherIcon}.png`}
               alt={weatherMain}
-              className="w-24 h-24 mix-blend-screen mx-auto"
+              width={130}
+              height={130}
+              className="mx-auto mix-blend-screen"
             />
             <p className="font-bold text-xl font-sans text-center">
               {tempMax} &#8451; /{tempMin} &#8451;
@@ -104,7 +109,7 @@ const TimeToday = ({ todaysWeather }) => {
   return (
     <div className="grid-large space-y-5">
       <h2 className=" font-bold text-xl ">
-        Tomorrow's Forecast for
+        Tomorrow&#39;s Forecast for
         {`${name}, ${state || ""}, ${country}`}
       </h2>
 
@@ -126,6 +131,7 @@ const TimeToday = ({ todaysWeather }) => {
               temp={time.temp}
               humid={time.humid || null}
               weather={time.image}
+              id={index}
               key={index}
             />
           );
@@ -136,16 +142,19 @@ const TimeToday = ({ todaysWeather }) => {
   );
 };
 
-const Time = ({ time, temp, humid, weather, timeVal }) => {
+const Time = ({ time, temp, humid, weather, id }) => {
   return (
     <div className="bg-white flex flex-col items-center justify-center space-y-2">
       <p className="text-xl font-medium capitalize">{time}</p>
       <h2 className="font-sans ">{temp} &#8451;</h2>
-      <img
+      <Image
         src={`http://openweathermap.org/img/w/${weather}.png`}
-        alt={time}
-        className="w-24 h-24"
+        alt={`weather ${id}`}
+        width={80}
+        height={80}
+        className="mx-auto"
       />
+
       <h2>{humid} %</h2>
     </div>
   );
@@ -156,32 +165,44 @@ const TopStory = () => {
     <div className="grid-large space-y-5">
       <h2 className=" font-bold text-xl ">Top Story</h2>
       <div className="grid grid-cols-4 space-x-3 w-full ">
-        <div className=" h-52 rounded-md overflow-hidden shadow-smz-10">
-          <img
+        <div className=" h-52 rounded-md overflow-hidden shadow-sm bg-slate-500 z-10">
+          <Image
             className="h-full object-cover object-center"
             src="/additional/weather1.jpg"
             alt="weather1"
+            layout="responsive"
+            width={160}
+            height={260}
           />
         </div>
         <div className=" h-52 rounded-md overflow-hidden shadow-sm bg-slate-500 z-10">
-          <img
+          <Image
             className="h-full object-cover object-center"
             src="/additional/weather2.jpg"
             alt="weather2"
+            layout="responsive"
+            width={160}
+            height={260}
           />
         </div>
         <div className="h-52 rounded-md overflow-hidden shadow-sm bg-slate-500 z-10">
-          <img
+          <Image
             className=" h-full object-cover object-center"
             src="/additional/weather3.jpg"
             alt="weather3"
+            layout="responsive"
+            width={160}
+            height={260}
           />
         </div>
         <div className="h-52 rounded-md overflow-hidden shadow-sm bg-slate-500 z-10">
-          <img
+          <Image
             className="w-fit h-full object-cover object-center"
             src="/additional/weather4.jpg"
             alt="weather4"
+            layout="responsive"
+            width={160}
+            height={260}
           />
         </div>
       </div>
@@ -195,10 +216,12 @@ const Hurricane = () => {
     <div className="grid-small">
       <h2 className=" font-bold text-xl px-5">Hurricane Central</h2>
       <div className=" relative w-full h-96">
-        <img
+        <Image
           className=" absolute h-full w-full object-cover object-center "
           src="/additional/hurricane.jpg"
           alt="hurricane"
+          layout="fill"
+          height={400}
         />
         <div className="absolute top-5 left-5 w-52 flex-row">
           <h2 className=" font-bold text-xl text-white">
@@ -233,7 +256,12 @@ const Donate = () => {
       <h2 className=" font-bold text-xl ">Donate to The Red Cross</h2>
       <div style={{ display: "grid", gridTemplateColumns: "3fr 1fr" }}>
         <p>Help people affected by Tropical disease</p>
-        <img src="/additional/red-cross.png" alt="red cross" />
+        <Image
+          src="/additional/red-cross.png"
+          alt="red cross"
+          width={48}
+          height={48}
+        />
       </div>
       <button className="btn ">Donate Now</button>
     </div>

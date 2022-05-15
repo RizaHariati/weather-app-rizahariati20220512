@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useGlobalContext } from "../context/appContext";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const NavBar = () => {
   const router = useRouter();
@@ -9,7 +10,6 @@ const NavBar = () => {
     showSearchBar,
     closeSearchBar,
     openSearchBar,
-    setShowSearchBar,
     locationKey,
     getLocationKey,
     locationList,
@@ -117,10 +117,12 @@ const NavBar = () => {
       <div className="bg-clrPrimaryLight w-full h-10 flex items-center justify-start px-24 space-x-1 text-white">
         {todaysWeather && (
           <>
-            <img
+            <Image
               src={`http://openweathermap.org/img/w/${todaysWeather.weatherIcon}.png`}
               alt={todaysWeather.weatherMain}
-              className={"w-6 h-6 mix-blend-screen mr-2 "}
+              width={40}
+              height={40}
+              className={" mix-blend-screen mr-2 "}
             />
             <h2 className="font-sans">
               {`87`} &#8451;

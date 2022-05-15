@@ -1,13 +1,14 @@
 import React from "react";
 import { useState } from "react";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { useGlobalContext } from "../../../context/appContext";
+import Image from "next/image";
 
 const TenDays = () => {
   const { dailyWeather, todaysWeather } = useGlobalContext();
   console.log(dailyWeather);
   const [selected, setSelected] = useState(null);
-  const Router = useRouter();
+
   const toggle = (id) => {
     if (selected === id) {
       return setSelected(null);
@@ -102,10 +103,12 @@ const Today = ({ weather }) => {
         <span className=" font-normal text-base">/{tempMin} &#8451;</span>
       </h3>
       <div className="flex items-center">
-        <img
+        <Image
           src={`http://openweathermap.org/img/w/${dailyIcon}.png`}
           alt={dailyMain}
-          className="w-12 h-12 mr-5"
+          className="mr-5"
+          width={40}
+          height={40}
         />
         <p>{dailyDescription}</p>
       </div>
@@ -177,10 +180,11 @@ const DayNightDetails = ({
       </p>
       <div className=" w-full flex justify-between items-center">
         <h2 className="font-sans font-bold text-4xl">{temp} &#8451;</h2>
-        <img
+        <Image
           src={`http://openweathermap.org/img/w/${dailyIcon}.png`}
           alt={dailyMain}
-          className="w-12 h-12"
+          width={70}
+          height={70}
         />
         <div>
           <div className="flex items-center  ">

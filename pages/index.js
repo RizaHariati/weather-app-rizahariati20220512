@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useGlobalContext } from "../context/appContext";
+import React from "react";
 
 const index = () => {
   return (
