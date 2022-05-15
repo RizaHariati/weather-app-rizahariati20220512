@@ -43,7 +43,7 @@ const AppProvider = ({ children }) => {
   const fetchLocation = async (locationKey) => {
     try {
       const resp = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${locationKey}&limit=5&appid=${process.env.API_KEY}`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${locationKey}&limit=5&appid=${process.env.API_KEY}`
       );
       const data = await resp.json();
       setLocationList(data);
@@ -81,7 +81,7 @@ const AppProvider = ({ children }) => {
     const { lat, lon, name, state, country } = location;
     try {
       const resp = await fetch(
-        `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}&units=metric`
       );
       const data = await resp.json();
       if (data) {
