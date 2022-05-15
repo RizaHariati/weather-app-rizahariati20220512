@@ -61,7 +61,7 @@ const TenDays = () => {
   } else {
     setTimeout(() => {
       Router.push("/");
-    }, 3000);
+    }, 2000);
     return (
       <div
         onClick={() => {

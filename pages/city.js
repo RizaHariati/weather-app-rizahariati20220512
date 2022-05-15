@@ -40,7 +40,7 @@ const City = () => {
   } else {
     setTimeout(() => {
       Router.push("/");
-    }, 3000);
+    }, 2000);
     return (
       <div
         onClick={() => {
@@ -220,8 +220,9 @@ const Hurricane = () => {
           className=" absolute h-full w-full object-cover object-center "
           src="/additional/hurricane.jpg"
           alt="hurricane"
-          layout="fill"
-          height={400}
+          layout="responsive"
+          width={270}
+          height={300}
         />
         <div className="absolute top-5 left-5 w-52 flex-row">
           <h2 className=" font-bold text-xl text-white">

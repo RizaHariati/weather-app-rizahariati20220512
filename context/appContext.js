@@ -5,12 +5,14 @@ import React, {
   useEffect,
   useReducer,
 } from "react";
+import getDailyData from "../components/utils/GetDailyData";
 import getDay from "../components/utils/GetDay";
 import getTime from "../components/utils/GetTime";
 import hourlyArray from "../components/utils/HourlyArray";
 import reducer from "./reducer";
 import {
   CLOSE_SEARCH_BAR,
+  GET_DAILY_WEATHER,
   GET_TODAYS_WEATHER,
   OPEN_SEARCH_BAR,
 } from "./reducerIndex";
@@ -22,7 +24,7 @@ const AppProvider = ({ children }) => {
     showSearchBar: true,
     locationKey: "",
     todaysWeather: null,
-    // dailyWeather: [],
+    dailyWeather: [],
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -30,8 +32,6 @@ const AppProvider = ({ children }) => {
   const [locationKey, setLocationKey] = useState("");
   const [locationList, setLocationList] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  // const [todaysWeather, setTodaysWeather] = useState(null);
-  const [dailyWeather, setDailyWeather] = useState([]);
 
   const closeSearchBar = () => {
     return dispatch({ type: CLOSE_SEARCH_BAR });
@@ -101,47 +101,8 @@ const AppProvider = ({ children }) => {
           timeNow: getTime(current.dt),
           timeInDay: time,
         };
-        daily.forEach((item, index) => {
-          const {
-            dt,
-            temp,
-            humidity,
-            moonrise,
-            moonset,
-            sunrise,
-            sunset,
-            weather,
-            wind_speed,
-            uvi,
-            rain,
-          } = item;
-          const { main, description, icon } = weather[0];
-          const { day, max, min, night } = temp;
-
-          const dailyData = {
-            day: getDay(dt),
-            tempDay: Math.floor(day),
-            tempMax: Math.floor(max),
-            tempMin: Math.floor(min),
-            tempNight: Math.floor(night),
-            dailyMain: main,
-            dailyDescription: description,
-            dailyIcon: icon,
-            humidity,
-            moonrise: getTime(moonrise),
-            moonset: getTime(moonset),
-            sunrise: getTime(sunrise),
-            sunset: getTime(sunset),
-            wind_speed,
-            uvi,
-            rain: Math.floor(rain),
-          };
-          if (!dailyWeather) {
-            return setDailyWeather(new Array(dailyData));
-          } else {
-            return setDailyWeather((prevDaily) => [...prevDaily, dailyData]);
-          }
-        });
+        const dailyData = getDailyData(daily);
+        dispatch({ type: GET_DAILY_WEATHER, payload: dailyData });
         clearList();
         dispatch({ type: GET_TODAYS_WEATHER, payload: weather });
       }
@@ -175,7 +136,6 @@ const AppProvider = ({ children }) => {
         setLocationList,
         selectedLocation,
         getSelectedLocation,
-        dailyWeather,
       }}
     >
       {children}

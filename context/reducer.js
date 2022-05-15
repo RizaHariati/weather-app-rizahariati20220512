@@ -19,14 +19,7 @@ const reducer = (state = initialState, { type, payload }) => {
   }
 
   if (type === GET_DAILY_WEATHER) {
-    let arr = [];
-    if (!state.dailyWeather) {
-      arr.push(payload);
-    } else {
-      arr = state.dailyWeather;
-      arr.push(payload);
-    }
-    return { ...state, dailyWeather: arr };
+    return { ...state, dailyWeather: payload };
   }
   return state;
 };
